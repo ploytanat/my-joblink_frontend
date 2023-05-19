@@ -19,6 +19,12 @@ const routes = [
     name: 'signIn',
     component: () => import('../views/SignIn.vue')
   },
+  {
+    path: '/applicantProfile',
+    name: 'applicantProfile',
+    meta: { login: true },
+    component: () => import('../views/applicant/ApplicantProfilePage.vue')
+  },
 ]
 
 const router = new VueRouter({
@@ -26,5 +32,22 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  if (to.meta.login && !isLoggedIn) {
+    alert("Please login first!");
+    next({ path: "/signin" });
+  }
+
+  if (to.meta.guess && isLoggedIn) {
+    alert("You've already logged in");
+    next({ path: "/" });
+  }
+
+  next();
+});
+
 
 export default router

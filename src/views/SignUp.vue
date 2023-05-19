@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <div class="container p-5">
-      <h1 class="title">Sign up</h1>
-      <div class="tabs">
+  <div class="signup">
+    <h1 class="title">Sign up</h1>
+    <div class="container">
+      
+        <div class="tabs is-boxed column is-8">
         <ul>
           <li :class="{ 'is-active': activeTab === 'applicant' }">
             <a @click="activeTab = 'applicant'">หางาน</a>
@@ -11,8 +12,8 @@
             <a @click="activeTab = 'recruiter'">หาคน</a>
           </li>
         </ul>
-      </div>
-      <div v-show="activeTab === 'applicant'" class="box">
+      
+      <div v-show="activeTab === 'applicant'">
         <h2 class="subtitle">สมัครสมาชิกสำหรับผู้สมัคร</h2>
         <form @submit.prevent="registerApplicant">
           <div class="field">
@@ -25,70 +26,30 @@
                 type="text"
               />
             </div>
-
             <template v-if="$v.applicantEmail.$error">
-              <p class="help is-danger" v-if="!$v.applicantEmail.required">
-                This field is required
-              </p>
-              <p class="help is-danger" v-else-if="!$v.applicantEmail.email">
-                Invalid email format
-              </p>
+              <p class="help is-danger" v-if="!$v.applicantEmail.required"> โปรดกรอกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-else-if="!$v.applicantEmail.email"> รูปแบบอีเมลไม่ถูกต้อง</p>
             </template>
           </div>
-
           <div class="field">
             <label class="label">Password</label>
             <div class="control">
-              <input
-                v-model="$v.applicantPassword.$model"
-                :class="{ 'is-danger': $v.applicantPassword.$error }"
-                class="input"
-                type="password"
-              />
+              <input v-model="$v.applicantPassword.$model" :class="{ 'is-danger': $v.applicantPassword.$error }" class="input" type="password"/>
             </div>
             <template v-if="$v.applicantPassword.$error">
-              <p class="help is-danger" v-if="!$v.applicantPassword.required">
-                This field is required
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.applicantPassword.minLength"
-              >
-                Password must be at least 8 characters
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.applicantPassword.complex"
-              >
-                Password should contain at least one lowercase letter, one
-                uppercase letter, and one number
-              </p>
+              <p class="help is-danger" v-if="!$v.applicantPassword.required">โปรดกรอกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-else-if="!$v.applicantPassword.minLength">รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัว</p>
+              <p class="help is-danger" v-else-if="!$v.applicantPassword.complex">รหัสผ่านต้องประกอบไปด้วยตัวพิมพ์เล็ก ตัวพิมพ์ใหญ่ และตัวเลข</p>
             </template>
           </div>
-
           <div class="field">
             <label class="label">Confirm Password</label>
             <div class="control">
-              <input
-                class="input"
-                :class="{ 'is-danger': $v.applicantConfirmPassword.$error }"
-                type="password"
-                v-model="$v.applicantConfirmPassword.$model"
-              />
+              <input class="input" :class="{ 'is-danger': $v.applicantConfirmPassword.$error }" type="password" v-model="$v.applicantConfirmPassword.$model"/>
             </div>
             <template v-if="$v.applicantConfirmPassword.$error">
-              <p
-                class="help is-danger"
-                v-if="!$v.applicantConfirmPassword.required"
-              >
-                This field is required
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.applicantConfirmPassword.sameAsPassword"
-              >
-                Passwords do not match
-              </p>
+              <p class="help is-danger" v-if="!$v.applicantConfirmPassword.required">โปรดกรอกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-else-if="!$v.applicantConfirmPassword.sameAsPassword">รหัสผ่านไม่ตรงกัน</p>
             </template>
           </div>
           <div class="field">
@@ -96,83 +57,37 @@
           </div>
         </form>
       </div>
-
-      <div v-show="activeTab === 'recruiter'" class="box">
+      <div v-show="activeTab === 'recruiter'" >
         <h2 class="subtitle">สมัครสมาชิกสำหรับบริษัท</h2>
         <form @submit.prevent="registerRecruiter">
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input
-                class="input"
-                :class="{ 'is-danger': $v.recruiterEmail.$error }"
-                type="email"
-                v-model.trim="$v.recruiterEmail.$model"
-              />
-            </div>
+              <input class="input" :class="{ 'is-danger': $v.recruiterEmail.$error }" type="email" v-model.trim="$v.recruiterEmail.$model"/></div>
             <template v-if="$v.recruiterEmail.$error">
-              <p class="help is-danger" v-if="!$v.recruiterEmail.required">
-                This field is required
-              </p>
-              <p class="help is-danger" v-else-if="!$v.recruiterEmail.email">
-                Invalid email format
-              </p>
+              <p class="help is-danger" v-if="!$v.recruiterEmail.required">โปรดกรอกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-else-if="!$v.recruiterEmail.email">รูปแบบอีเมลไม่ถูกต้อง</p>
             </template>
           </div>
-
           <div class="field">
             <label class="label">Password</label>
             <div class="control">
-              <input
-                class="input"
-                :class="{ 'is-danger': $v.recruiterPassword.$error }"
-                type="password"
-                v-model.trim="$v.recruiterPassword.$model"
-              />
+              <input class="input" :class="{ 'is-danger': $v.recruiterPassword.$error }" type="password" v-model.trim="$v.recruiterPassword.$model"/>
             </div>
             <template v-if="$v.recruiterPassword.$error">
-              <p class="help is-danger" v-if="!$v.recruiterPassword.required">
-                This field is required
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.recruiterPassword.minLength"
-              >
-                Password must be at least 8 characters
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.recruiterPassword.complex"
-              >
-                Password should contain at least one lowercase letter, one
-                uppercase letter, and one number
-              </p>
+              <p class="help is-danger" v-if="!$v.recruiterPassword.required">โปรดกรอกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-else-if="!$v.recruiterPassword.minLength">รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัว </p>
+              <p class="help is-danger" v-else-if="!$v.recruiterPassword.complex">รหัสผ่านต้องประกอบไปด้วยตัวพิมพ์เล็ก ตัวพิมพ์ใหญ่ และตัวเลข</p>
             </template>
           </div>
-
           <div class="field">
             <label class="label">Confirm Password</label>
             <div class="control">
-              <input
-                class="input"
-                :class="{ 'is-danger': $v.recruiterConfirmPassword.$error }"
-                type="password"
-                v-model.trim="$v.recruiterConfirmPassword.$model"
-              />
+              <input class="input" :class="{ 'is-danger': $v.recruiterConfirmPassword.$error }" type="password" v-model.trim="$v.recruiterConfirmPassword.$model"/>
             </div>
             <template v-if="$v.recruiterConfirmPassword.$error">
-              <p
-                class="help is-danger"
-                v-if="!$v.recruiterConfirmPassword.required"
-              >
-                This field is required
-              </p>
-              <p
-                class="help is-danger"
-                v-else-if="!$v.recruiterConfirmPassword.sameAsPassword"
-              >
-                Passwords do not match
-              </p>
+              <p class="help is-danger" v-if="!$v.recruiterConfirmPassword.required">โปรดกรอกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-else-if="!$v.recruiterConfirmPassword.sameAsPassword">รหัสผ่านไม่ตรงกัน</p>
             </template>
           </div>
           <div class="field">
@@ -182,6 +97,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -309,10 +225,16 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  max-width: 600px;
+.signup {
+  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+
 }
 
 .title {
