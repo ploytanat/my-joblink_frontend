@@ -164,7 +164,7 @@ export default {
       this.$v.applicantConfirmPassword.$touch();
       if (!this.$v.$error) {
         // ทำการสมัครสมาชิกผู้สมัคร
-        let data = {
+        const data = {
           email: this.applicantEmail,
           password: this.applicantPassword,
           confirm_password: this.applicantConfirmPassword,
@@ -184,7 +184,7 @@ export default {
           })
           .catch((error) => {
             if (error.response) {
-              console.log(error.response.data);
+              console.log('erroewi]jt',error.response.data);
               alert("โปรดกรอกข้อมูลให้ครบก่อน");
             }
           });

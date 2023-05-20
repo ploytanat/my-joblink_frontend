@@ -9,18 +9,23 @@
       </ul>
       <applicantProfile  v-if="select_option === 'user_profile'">
       </applicantProfile>
-    </div>
-
-    <div class="column is-2"></div>
+      <UploadResume v-if="select_option === 'resume'"></UploadResume>
+    
+    <applicantPreview v-if="select_option === 'preview'"></applicantPreview>
+  </div>
   </div>
 </template>
 
 <script>
 import applicantProfile from '@/components/applicant-profile.vue';
-//import axios from "@/plugins/axios";
+import UploadResume from '@/components/upload-resume.vue';
+import applicantPreview from '@/components/applicant-preview.vue';
+import axios from "@/plugins/axios";
 export default {
   components: {
-        applicantProfile
+        applicantProfile,
+        UploadResume,
+        applicantPreview
     },
   data() {
     return {
@@ -42,8 +47,25 @@ export default {
   },
   methods: {
     getUserProfile() {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       
-      
+      axios.get("http://localhost:3000/applicant/getData", config).then((res) => {
+        this.user = res.data;
+       // console.log("appProfile", res.data[0].email)
+        this.firstName = res.data[0].firstName;
+        this.lastName = res.data[0].lastName;
+        this.birthdate = new Date(res.data[0].birthdate).toISOString().split("T")[0];
+        this.phone_number = res.data[0].phone_number;
+        this.gender = res.data[0].gender;
+        this.email = res.data[0].email;
+        this.address = res.data[0].address;
+
+      });
     },
     saveProfile() {
       // เรียก API เพื่อบันทึกข้อมูลส่วนตัวที่ผู้ใช้แก้ไข

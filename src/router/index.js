@@ -17,6 +17,7 @@ const routes = [
   {
     path: '/signin',
     name: 'signIn',
+     
     component: () => import('../views/SignIn.vue')
   },
   {
@@ -24,6 +25,18 @@ const routes = [
     name: 'applicantProfile',
     meta: { login: true },
     component: () => import('../views/applicant/ApplicantProfilePage.vue')
+  },
+  {
+    path: '/MyJobs',
+    name: 'MyJobs',
+    meta: { login: true },
+    component: () => import('../views/applicant/MyJobsPage.vue')
+  },
+  {
+    path: '/recruiterProfile',
+    name: 'recruiterProfile',
+    meta: { login: true },
+    component: () => import('../views/recruiter/RecruiterProfilePage.vue')
   },
 ]
 
