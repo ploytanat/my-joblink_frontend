@@ -1,12 +1,9 @@
 <template>
   <div class="p-6 card" style="background-color: #393E46;">
-
       <div class="card">
         <div class="columns mt-0">
           <div class="tabs is-boxed column p-6">
-            
               <div class="column">
-                
                 <div class="columns is-multiline ml-6 mt-1">
                   <p class="column is-12">ชื่อ-นามสกุล: {{ firstName }} {{lastName }}</p>
                   <p class="column is-6">เพศ: {{ gender }}</p>
@@ -18,18 +15,13 @@
                   </div>
                 </div>
               </div>
-           
             <UploadResume></UploadResume>
-           
           </div>
           </div>
         </div>
       </div>
- 
 </template>
-
 <script>
-
 import UploadResume from "@/components/upload-resume.vue";
 import axios from "@/plugins/axios";
 export default {
@@ -62,7 +54,6 @@ export default {
           Authorization: `Bearer ${token}`,
         },
       };
-
       axios
       axios.get("http://localhost:3000/applicant/getData", config).then((res) => {
       const user = res.data;
@@ -79,7 +70,5 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-/* สไตล์ CSS สำหรับฟอร์ม */
 </style>

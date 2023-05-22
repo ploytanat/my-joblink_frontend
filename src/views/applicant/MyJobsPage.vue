@@ -8,55 +8,33 @@
                     </p>
                 </div>
                 <div
-                    :class="['select_option', select_option === 'favorite' ? ['has-background-primary', 'has-text-white'] : '']">
-                    <p class="has-text-centered is-size-5 p-3 " @click="select_option = 'favorite'">งานโปรด</p>
-                </div>
-                <div
                     :class="['select_option', select_option === 'history' ? ['has-background-primary', 'has-text-white'] : '']">
                     <p class="has-text-centered is-size-5 p-3 " @click="select_option = 'history'">งานที่เคยยื่น</p>
                 </div>
             </div>
-
-            <myjobApplication v-if="select_option === 'application'">
-            </myjobApplication>
-
-            <myjobFavoriteListVue  v-if="select_option === 'favorite'">
-            </myjobFavoriteListVue>
-
-            <myjobApplication
+            <applicantApplication v-if="select_option === 'application'">
+            </applicantApplication>
+            <applicantHistory
                 v-if="select_option === 'history'">
-            </myjobApplication> 
-
+            </applicantHistory> 
         </div>
-        
     </div>
-
-
 </template>
-
-
-
 <script lang="ts">
-//import { defineComponent, onMounted, reactive, ref } from 'vue'
-//import myjobApplication from '@/components/myjob-application.vue';
-//import myjobFavoriteListVue from '@/components/myjob-favorite-list.vue';
-//import axios from '@/plugins/axios';
+import applicantApplication from '@/components/applicant-application.vue';
+import applicantHistory from '@/components/applicant-history.vue';
 export default ({
     components: {
-     //   myjobApplication,
-     //   myjobFavoriteListVue,
-      
+     applicantHistory,
+     applicantApplication
     },
     data() {
   return {
-    select_option : 'user_profile',
-
+    select_option : 'application',
   };
 },
-    
 })
 </script>
-
 <style scoped>
 .select_option {
     cursor: pointer;

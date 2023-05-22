@@ -7,6 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'HomePage',
+  
     component: () => import('../views/HomePage.vue') // set home as path '/'
   },
   {
@@ -17,7 +18,7 @@ const routes = [
   {
     path: '/signin',
     name: 'signIn',
-     
+    
     component: () => import('../views/SignIn.vue')
   },
   {
@@ -37,6 +38,48 @@ const routes = [
     name: 'recruiterProfile',
     meta: { login: true },
     component: () => import('../views/recruiter/RecruiterProfilePage.vue')
+  },
+  {
+    path: '/recruiterJob',
+    name: 'recruiterJob',
+    meta: { login: true },
+    component: () => import('../views/recruiter/RecruiterJobPage.vue')
+  },
+  {
+    path: '/recruiterAddJob',
+    name: 'recruiterAddJob',
+    meta: { login: true },
+    component: () => import('../views/recruiter/RcruiterAddJob.vue')
+  },
+  {
+    path: '/edit-job/:jobId',
+    name: 'RecruiterJobEdit',
+    meta: { login: true },
+    component: () => import('../views/recruiter/RecruiterJobEdit.vue')
+  },
+  {
+    path: '/company/:companyId',
+    name: 'CompanyDetails',
+    
+    component: () => import('../views/CompanyDetails.vue')
+  },
+  {
+    path: '/job/:jobId',
+    name: 'JobDetails',
+    meta: { login: true },
+    component: () => import('../views/JobDetail.vue')
+  },
+  {
+    path: '/applicantList',
+    name: 'applicantList',
+    meta: { login: true },
+    component: () => import('../views/recruiter/Applicant-list.vue')
+  },
+  {
+    path: '/applicantDetail/:applicationId',
+    name: 'applicantDetail',
+    meta: { login: true },
+    component: () => import('../views/recruiter/Applicant-detail.vue')
   },
 ]
 

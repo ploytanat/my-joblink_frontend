@@ -4,10 +4,11 @@
       <div class="field is-horizontals">
         <div class="field">
           <p class="control">
-            <img :src="profile_image_preview" alt="Profile Image" class="image-preview profile_image" v-if="profile_image_preview">
+            <img :src="imagePath(profile_image)" alt="Profile Image" class="image-preview profile_image" v-if="profile_image && !modify_profile">
+            <img :src="profile_image_preview" alt="Profile Image" class="image-preview profile_image" v-if="profile_image_preview && modify_profile">
           </p>
         </div>
-        <div class="file has-name">
+        <div class="file has-name" v-if="modify_profile">
           <label class="file-label">
             <input class="file-input" type="file" @change="handleProfileImageUpload" accept="image/*">
             <span class="file-cta">
@@ -64,9 +65,7 @@
               <textarea class="textarea" v-model="$v.description.$model" :class="{ 'is-danger': $v.description.$error }"></textarea>
             </p>
             <template v-if="$v.description.$error">
-              <p class="help is-danger" v-if="!$v.description.required">โปรดกร
-
-อกข้อมูลในช่องนี้</p>
+              <p class="help is-danger" v-if="!$v.description.required">โปรดกรอกข้อมูลในช่องนี้</p>
             </template>
           </div>
         </div>
@@ -117,14 +116,11 @@ export default {
       company_name: '',
       email: '',
       description: '',
-      profile_image: null,
+      profile_image: '',
       profile_image_name: '',
       profile_image_preview: '',
-      company_video:
-        '<iframe width="560" height="315" src="https://www.youtube.com/embed/Os_heh8vPfs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+      company_video: '',
       modify_profile: false,
-      profileImagePreview:
-        'https://images.unsplash.com/photo-1684535780920-10aea6d3c02e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
     };
   },
   mounted() {
@@ -140,16 +136,28 @@ export default {
         Authorization: `Bearer ${token}`,
       },
     };
-    
     axios.get("http://localhost:3000/recruiter/getData", config).then((res) => {
       const user = res.data;
      // console.log("getappProfile",user)
+     if(user[0].profile_image){
+      this.profile_image = user[0].profile_image.replace(/\\/g, '/').replace('static', '');
+     }
+     
      this.company_name = user[0].company_name
      this.description = user[0].description
      this.email = user[0].email
      this.role = user[0].role;
+     this.company_video = user[0].company_video
     });
   },
+  imagePath(previewProfileImage) {
+      if (previewProfileImage) {
+        return "http://localhost:3000" + previewProfileImage;
+      } else {
+        return "https://bulma.io/images/placeholders/640x360.png";
+      }
+    },
+    
   saveProfile() {
     const token = localStorage.getItem("token");
     const config = {
@@ -162,7 +170,7 @@ export default {
       formData.append('email', this.email);
       formData.append('description', this.description);
       if (this.profile_image) {
-        formData.append('profile_image', this.profile_image, this.profile_image_name);
+        formData.append('profile_image', this.profile_image);
       }
       formData.append('company_video', this.company_video);
 
@@ -177,6 +185,7 @@ export default {
             title: 'บันทึกข้อมูลสำเร็จ',
             showConfirmButton: false,
           });
+          this.getUserProfile();
           this.modify_profile = false;
         })
         .catch((error) => {
@@ -202,15 +211,7 @@ export default {
       reader.readAsDataURL(file);
     },
     resetProfile() {
-    //  this.firstName = '';
-    //  this.lastName = '';
-    //  this.company_name = '';
-    //  this.email = '';
-    //  this.description = '';
-    //  this.profile_image = null;
-    //  this.profile_image_name = '';
-    //  this.profile_image_preview = '';
-    //  this.company_video = '';
+    this.getUserProfile();
       this.modify_profile = false;
     },
   },
@@ -235,7 +236,7 @@ export default {
       required,
     },
     company_video: {
-      required,
+      
     },
   },
 };
